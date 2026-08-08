@@ -13,6 +13,6 @@ import SwiftSyntaxMacros
 @main
 struct DeclarationDerivationMacroPlugin: CompilerPlugin {
     let providingMacros: [Macro.Type] = [
-        Declaration.Derivation.ExpansionHost.self
+        DeclarationDerivationMacro.self
     ]
 }

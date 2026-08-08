@@ -52,7 +52,7 @@ let package = Package(
         // content (the shared declaration IR, analysis and deterministic emission core).
         .target(
             name: "Declaration Derivation",
-            dependencies: []
+            dependencies: ["DeclarationDerivationMacros"]
         ),
         // MARK: - Normalized declaration model (Declaration.Node, Declaration.IR, Declaration.GenerationContract)
         .target(
@@ -105,6 +105,10 @@ let package = Package(
                 .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
                 .product(name: "SwiftDiagnostics", package: "swift-syntax"),
             ]
+        ),
+        .testTarget(
+            name: "Declaration Derivation Consumer Tests",
+            dependencies: ["Declaration Derivation"]
         ),
         .testTarget(
             name: "Declaration Derivation Tests",
