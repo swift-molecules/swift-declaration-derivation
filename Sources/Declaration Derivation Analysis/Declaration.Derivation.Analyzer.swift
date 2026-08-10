@@ -1,7 +1,7 @@
 // Declaration.Derivation.Analyzer.swift
 
-public import DeclarationDerivationDiagnostics
-public import DeclarationDerivationModel
+public import Declaration_Derivation_Diagnostics
+public import Declaration_Derivation_Model
 
 extension Declaration.Derivation {
     /// Validates a normalized IR against the analysis rules before any

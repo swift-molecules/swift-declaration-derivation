@@ -1,8 +1,8 @@
 // Analyzer Tests.swift
 
-import DeclarationDerivationAnalysis
-import DeclarationDerivationDiagnostics
-import DeclarationDerivationModel
+import Declaration_Derivation_Analysis
+import Declaration_Derivation_Diagnostics
+import Declaration_Derivation_Model
 import Testing
 
 extension Declaration.Derivation.Analyzer {

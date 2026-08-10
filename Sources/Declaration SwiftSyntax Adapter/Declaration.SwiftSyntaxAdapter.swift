@@ -1,7 +1,7 @@
 // Declaration.SwiftSyntaxAdapter.swift
 
-public import DeclarationDerivationDiagnostics
-public import DeclarationDerivationModel
+public import Declaration_Derivation_Diagnostics
+public import Declaration_Derivation_Model
 public import SwiftSyntax
 
 extension Declaration {

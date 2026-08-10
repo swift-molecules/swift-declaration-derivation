@@ -1,6 +1,6 @@
 // Declaration.Derivation.Diagnostic.Code.swift
 
-public import DeclarationDerivationModel
+public import Declaration_Derivation_Model
 
 extension Declaration.Derivation.Diagnostic {
     /// The closed set of stable diagnostic codes.

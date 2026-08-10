@@ -1,10 +1,10 @@
 // Declaration.Derivation.ExpansionHost.swift
 
-import DeclarationDerivationAnalysis
-import DeclarationDerivationDiagnostics
-import DeclarationDerivationEmission
-public import DeclarationDerivationModel
-import DeclarationSwiftSyntaxAdapter
+import Declaration_Derivation_Analysis
+import Declaration_Derivation_Diagnostics
+import Declaration_Derivation_Emission
+public import Declaration_Derivation_Model
+import Declaration_SwiftSyntax_Adapter
 public import SwiftSyntax
 public import SwiftSyntaxMacros
 

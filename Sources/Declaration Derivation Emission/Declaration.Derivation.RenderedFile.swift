@@ -1,7 +1,7 @@
 // Declaration.Derivation.RenderedFile.swift
 
-public import DeclarationDerivationDiagnostics
-public import DeclarationDerivationModel
+public import Declaration_Derivation_Diagnostics
+public import Declaration_Derivation_Model
 
 extension Declaration.Derivation {
     /// A deterministic, self-describing emission result.

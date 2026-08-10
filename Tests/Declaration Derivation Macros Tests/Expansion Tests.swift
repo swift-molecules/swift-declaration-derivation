@@ -1,14 +1,14 @@
 // Expansion Tests.swift
 
-import DeclarationDerivationDiagnostics
-import DeclarationDerivationModel
+import Declaration_Derivation_Diagnostics
+import Declaration_Derivation_Model
 import SwiftSyntax
 import SwiftSyntaxMacroExpansion
 import SwiftSyntaxMacros
 import SwiftSyntaxMacrosGenericTestSupport
 import Testing
 
-@testable import DeclarationDerivationMacros
+@testable import Declaration_Derivation_Macros
 
 // MARK: - Macro registry
 

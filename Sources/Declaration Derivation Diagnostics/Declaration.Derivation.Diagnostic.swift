@@ -1,6 +1,6 @@
 // Declaration.Derivation.Diagnostic.swift
 
-public import DeclarationDerivationModel
+public import Declaration_Derivation_Model
 
 extension Declaration {
     /// Namespace for the derivation machinery built on the normalized model:

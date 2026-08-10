@@ -1,10 +1,10 @@
 // Emitter Tests.swift
 
-import DeclarationDerivationAnalysis
-import DeclarationDerivationDiagnostics
-import DeclarationDerivationEmission
-import DeclarationDerivationModel
-import DeclarationSwiftSyntaxAdapter
+import Declaration_Derivation_Analysis
+import Declaration_Derivation_Diagnostics
+import Declaration_Derivation_Emission
+import Declaration_Derivation_Model
+import Declaration_SwiftSyntax_Adapter
 import Testing
 
 extension Declaration.Derivation.Emitter {
