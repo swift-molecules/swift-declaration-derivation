@@ -1,3 +1,4 @@
+import Foundation
 import Testing
 
 @testable import TX_D7A_Measurement
@@ -88,6 +89,38 @@ extension TX.D7A.Module {
                     incremental: control.incremental
                 ) == control.expected
             )
+        }
+
+        @Test
+        func `local consumer products are excluded from source module observation`() {
+            let artifacts = [
+                "Consumer.swiftmodule",
+                "TX_D7A_Measurement.swiftmodule",
+                "Declaration_Derivation.swiftmodule",
+                "SwiftSyntax.swiftmodule",
+                "SwiftParser.swiftmodule",
+            ]
+            let observed = artifacts.compactMap { name in
+                TX.D7A.Module.name(of: URL(fileURLWithPath: name))
+            }
+
+            #expect(observed == ["SwiftSyntax", "SwiftParser"])
+        }
+
+        @Test
+        func `only source module files qualify for observation`() {
+            let artifacts = [
+                "Consumer.swiftmodule",
+                "SwiftSyntax.swiftinterface",
+                "SwiftSyntaxMacros.swiftmodule",
+                "SwiftSyntax.swiftmodule",
+                "SwiftParser.swiftmodule",
+            ]
+            let observed = artifacts.compactMap { name in
+                TX.D7A.Module.name(of: URL(fileURLWithPath: name))
+            }
+
+            #expect(observed == ["SwiftSyntax", "SwiftParser"])
         }
     }
 }

@@ -45,6 +45,13 @@ extension TX.D7A {
         typealias Observation = [String: Metadata]
 
         static let names = ["SwiftSyntax", "SwiftParser"]
+
+        static func name(of artifact: URL) -> String? {
+            guard artifact.pathExtension == "swiftmodule" else { return nil }
+            let name = artifact.deletingPathExtension().lastPathComponent
+            guard names.contains(name) else { return nil }
+            return name
+        }
     }
 }
 

@@ -100,8 +100,7 @@ extension TX.D7A {
                 enumerator.skipDescendants()
                 continue
             }
-            guard item.pathExtension == "swiftmodule" else { continue }
-            let name = item.deletingPathExtension().lastPathComponent
+            guard let name = TX.D7A.Module.name(of: item) else { continue }
             do {
                 let values = try item.resourceValues(forKeys: [.contentModificationDateKey])
                 if let modificationDate = values.contentModificationDate {
