@@ -8,7 +8,7 @@ import SwiftSyntaxMacros
 import SwiftSyntaxMacrosGenericTestSupport
 import Testing
 
-@testable import Declaration_Derivation_Macros
+@testable import DeclarationDerivationMacros
 
 // MARK: - Macro registry
 

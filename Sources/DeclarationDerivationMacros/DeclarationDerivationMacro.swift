@@ -13,7 +13,7 @@ public import SwiftSyntaxMacros
 /// by another module reflects under *that* module. So
 /// `Declaration.Derivation.ExpansionHost` — which is nested in
 /// `Declaration`, a type of `Declaration_Derivation_Model` — cannot satisfy a
-/// `Declaration_Derivation_Macros.…` coordinate however it is spelled. This
+/// `DeclarationDerivationMacros.…` coordinate however it is spelled. This
 /// top-level type is that coordinate; it carries no behaviour of its own and
 /// forwards every expansion to the shared host.
 public struct DeclarationDerivationMacro: MemberMacro {

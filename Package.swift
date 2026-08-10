@@ -40,7 +40,7 @@ let package = Package(
         ),
         .library(
             name: "Declaration Derivation Macros",
-            targets: ["Declaration Derivation Macros"]
+            targets: ["DeclarationDerivationMacros"]
         ),
     ],
     dependencies: [
@@ -52,7 +52,7 @@ let package = Package(
         // content (the shared declaration IR, analysis and deterministic emission core).
         .target(
             name: "Declaration Derivation",
-            dependencies: ["Declaration Derivation Macros"]
+            dependencies: ["DeclarationDerivationMacros"]
         ),
         // MARK: - Normalized declaration model (Declaration.Node, Declaration.IR, Declaration.GenerationContract)
         .target(
@@ -93,7 +93,7 @@ let package = Package(
         ),
         // MARK: - Attached-macro expansion host (thin adapter over the core; build-time only, excluded from Embedded)
         .macro(
-            name: "Declaration Derivation Macros",
+            name: "DeclarationDerivationMacros",
             dependencies: [
                 "Declaration Derivation Model",
                 "Declaration Derivation Diagnostics",
@@ -124,7 +124,7 @@ let package = Package(
         .testTarget(
             name: "Declaration Derivation Macros Tests",
             dependencies: [
-                "Declaration Derivation Macros",
+                "DeclarationDerivationMacros",
                 "Declaration Derivation Model",
                 "Declaration Derivation Diagnostics",
                 .product(name: "SwiftSyntax", package: "swift-syntax"),
