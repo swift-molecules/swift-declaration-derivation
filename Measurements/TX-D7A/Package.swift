@@ -14,6 +14,11 @@ let package = Package(
         .executableTarget(
             name: "TX D7A Measurement",
             path: "Sources"
+        ),
+        .testTarget(
+            name: "TX D7A Measurement Tests",
+            dependencies: ["TX D7A Measurement"],
+            path: "Tests"
         )
     ],
     swiftLanguageModes: [.v6]

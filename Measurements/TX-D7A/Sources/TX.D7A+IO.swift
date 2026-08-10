@@ -82,10 +82,7 @@ extension TX.D7A {
         }
     }
 
-    static func modules(
-        at root: URL,
-        named names: Set<String>
-    ) throws(TX.D7A.Error) -> [String: Double] {
+    static func modules(at root: URL) throws(TX.D7A.Error) -> TX.D7A.Module.Observation {
         let manager = FileManager.default
         guard manager.fileExists(atPath: root.path) else { return [:] }
         guard
@@ -97,7 +94,7 @@ extension TX.D7A {
             throw .operation("could not enumerate source-built modules")
         }
 
-        var modules: [String: Double] = [:]
+        var modules: TX.D7A.Module.Observation = [:]
         for case let item as URL in enumerator {
             if item.lastPathComponent == "checkouts" {
                 enumerator.skipDescendants()
@@ -105,23 +102,15 @@ extension TX.D7A {
             }
             guard item.pathExtension == "swiftmodule" else { continue }
             let name = item.deletingPathExtension().lastPathComponent
-            guard names.contains(name) else { continue }
             do {
-                let values = try item.resourceValues(
-                    forKeys: [.isRegularFileKey, .contentModificationDateKey]
-                )
-
-                guard
-                    values.isRegularFile == true,
-                    let modificationDate = values.contentModificationDate
-                else {
-                    throw TX.D7A.Error.operation("could not read source-built module metadata")
+                let values = try item.resourceValues(forKeys: [.contentModificationDateKey])
+                if let modificationDate = values.contentModificationDate {
+                    modules[name] = .readable(modificationDate.timeIntervalSinceReferenceDate)
+                } else {
+                    modules[name] = .unreadable
                 }
-                modules[name] = modificationDate.timeIntervalSinceReferenceDate
-            } catch let error as TX.D7A.Error {
-                throw error
             } catch {
-                throw .operation("could not read source-built module metadata")
+                modules[name] = .unreadable
             }
         }
         return modules

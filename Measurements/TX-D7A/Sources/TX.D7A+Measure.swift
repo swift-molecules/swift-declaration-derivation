@@ -40,8 +40,7 @@ extension TX.D7A {
         }
 
         let before = canary(seed: UInt64(sample * 10 + order))
-        let sourceModuleNames: Set<String> = ["SwiftSyntax", "SwiftParser"]
-        let sourceBeforeClean = try modules(at: scratch, named: sourceModuleNames)
+        let sourceBeforeClean = try modules(at: scratch)
         let cleanLog = sampleRoot.appendingPathComponent("clean.log")
         let clean = try swift(
             argument,
@@ -51,7 +50,7 @@ extension TX.D7A {
             evidence: argument.evidence,
             name: "swift build clean sample"
         )
-        let sourceClean = try modules(at: scratch, named: sourceModuleNames)
+        let sourceClean = try modules(at: scratch)
 
         let original = try read(source)
         try write(original + "\n// TX-D7A incremental sample \(sample)\n", to: source)
@@ -65,7 +64,7 @@ extension TX.D7A {
             evidence: argument.evidence,
             name: "swift build incremental sample"
         )
-        let sourceIncremental = try modules(at: scratch, named: sourceModuleNames)
+        let sourceIncremental = try modules(at: scratch)
         let after = canary(seed: UInt64(sample * 10 + order))
 
         var pathArguments = [
@@ -108,11 +107,17 @@ extension TX.D7A {
         let checkouts = try count(at: scratch.appendingPathComponent("checkouts"))
         let checkoutBytes = try bytes(at: scratch.appendingPathComponent("checkouts"))
 
+        let sourceModuleFailure =
+            arm == .macro
+            ? TX.D7A.Module.validate(
+                beforeClean: sourceBeforeClean,
+                clean: sourceClean,
+                incremental: sourceIncremental
+            )
+            : nil
         let closure =
             arm == .macro
-            ? sourceBeforeClean.isEmpty
-                && Set(sourceClean.keys) == sourceModuleNames
-                && sourceIncremental == sourceClean
+            ? sourceModuleFailure == nil
                 && dependencies == 1
             : sourceBeforeClean.isEmpty
                 && sourceClean.isEmpty
@@ -124,7 +129,7 @@ extension TX.D7A {
         let environment = ProcessInfo.processInfo.environment
         try emit([
             "kind": "sample",
-            "schemaVersion": 2,
+            "schemaVersion": 3,
             "subjectRevision": environment["TX_D7A_SUBJECT_SHA"] ?? "unmeasured",
             "runID": environment["GITHUB_RUN_ID"] ?? "unmeasured",
             "runAttempt": environment["GITHUB_RUN_ATTEMPT"] ?? "unmeasured",
@@ -147,9 +152,10 @@ extension TX.D7A {
             "externalPackages": dependencies,
             "checkouts": checkouts,
             "checkoutBytes": checkoutBytes,
-            "sourceModulesBeforeClean": sourceBeforeClean,
-            "sourceModulesClean": sourceClean,
-            "sourceModulesIncremental": sourceIncremental,
+            "sourceModulesBeforeClean": TX.D7A.Module.record(sourceBeforeClean),
+            "sourceModulesClean": TX.D7A.Module.record(sourceClean),
+            "sourceModulesIncremental": TX.D7A.Module.record(sourceIncremental),
+            "sourceModuleValidity": sourceModuleFailure?.description ?? "not-applicable",
             "prebuiltLinesClean": prebuiltClean,
             "consumerOutput": output,
             "canaryBeforeSeconds": before.seconds,
@@ -159,7 +165,8 @@ extension TX.D7A {
         ])
 
         guard valid else {
-            throw .control("\(argument.platform) sample \(sample) \(arm.rawValue) failed a validity control")
+            let reason = sourceModuleFailure?.description ?? "validity-control-failed"
+            throw .control("\(argument.platform) sample \(sample) \(arm.rawValue) \(reason)")
         }
 
         do {
