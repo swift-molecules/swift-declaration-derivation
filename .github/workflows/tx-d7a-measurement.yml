@@ -1,0 +1,72 @@
+name: TX-D7A source-built macro economics
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/tx-d7a-measurement.yml"
+      - "Measurements/TX-D7A/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: "tx-d7a-${{ github.event.pull_request.number }}-${{ github.sha }}"
+  cancel-in-progress: false
+
+jobs:
+  linux:
+    name: Linux source-built economics
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      TX_D7A_SUBJECT_SHA: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920
+        with:
+          egress-policy: audit
+      - name: Check out exact subject
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Install Swift 6.4
+        uses: SwiftyLab/setup-swift@38f54a76b70d989321de9dc7c840618c08cf56e9
+        with:
+          swift-version: "6.4"
+      - name: Measure paired release builds
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$TX_D7A_SUBJECT_SHA"
+          swift_path="$(command -v swift)"
+          swift run --package-path Measurements/TX-D7A -c release "TX D7A Measurement" --repository "$GITHUB_WORKSPACE" --swift "$swift_path" --platform Linux --configuration release --samples 2
+
+  windows:
+    name: Windows source-built economics
+    runs-on: windows-latest
+    timeout-minutes: 60
+    env:
+      TX_D7A_SUBJECT_SHA: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920
+        with:
+          egress-policy: audit
+      - name: Check out exact subject
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Install Swift 6.4
+        uses: SwiftyLab/setup-swift@38f54a76b70d989321de9dc7c840618c08cf56e9
+        with:
+          swift-version: "6.4"
+      - name: Measure paired debug builds
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = "Stop"
+          if ((git rev-parse HEAD) -ne $env:TX_D7A_SUBJECT_SHA) { throw "subject checkout mismatch" }
+          $swift = (Get-Command swift).Source
+          swift run --package-path Measurements/TX-D7A -c release "TX D7A Measurement" --repository "$env:GITHUB_WORKSPACE" --swift "$swift" --platform Windows --configuration debug --samples 2
