@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "transaction": "TX-D7A",
+  "issue": "https://github.com/swift-primitives/swift-declaration-derivation/issues/8",
+  "pullRequest": "https://github.com/swift-primitives/swift-declaration-derivation/pull/9",
+  "matrix": "Measurements/TX-D7A/matrix.json",
+  "classification": "Measurements/TX-D7A/classification.md",
+  "runs": [
+    {"url":"https://github.com/swift-primitives/swift-declaration-derivation/actions/runs/31430610265","subjectRevision":"f3de14934c81165379b8a4a1d6b4ea4e382a3c1e","conclusion":"success"},
+    {"url":"https://github.com/swift-primitives/swift-declaration-derivation/actions/runs/31433263352","subjectRevision":"c36e7dd0771570e8e920be60353075b2914c06e9","zeroDeltaFromFirstRun":true,"conclusion":"success"}
+  ],
+  "scope": ["Linux source-built clean build","Windows source-built clean build","consumer-edit incremental build","dependency-closure economics"],
+  "classificationResult": "FAVORABLE within the bounded source-built delivery budget",
+  "notAuthorized": ["vendor implementation","offline generation","build-tool generation","committed generated source"],
+  "blocked": ["TX-VM1","TX-VM2","TX-VM3","TX-VG1","TX-VG2","TX-VG3","TX-VS1","TX-VS2","TX-VS3"]
+}
