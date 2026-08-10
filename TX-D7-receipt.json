@@ -56,14 +56,29 @@
   "measurement": {
     "matrix": "Artifacts/Measurement/TX-D7/matrix.json",
     "classification": "Artifacts/Measurement/TX-D7/classification.md",
-    "run": "https://github.com/swift-primitives/swift-declaration-derivation/actions/runs/31383906743",
+    "runs": [
+      {
+        "url": "https://github.com/swift-primitives/swift-declaration-derivation/actions/runs/31383906743",
+        "subjectRevision": "f195606aebbe7749b7ccde86129de550fc4b9a4f",
+        "conclusion": "success"
+      },
+      {
+        "url": "https://github.com/swift-primitives/swift-declaration-derivation/actions/runs/31418061902",
+        "subjectRevision": "0c2ba3db465d3befe17ee813f3e7bb33ace83e03",
+        "conclusion": "success"
+      }
+    ],
     "workflowResolvedRevision": "4eb5e080688dfca88bd99d09fdba6077c360534e",
     "commands": [
       "gh api repos/swift-primitives/swift-declaration-derivation/actions/runs/31383906743",
       "gh api repos/swift-primitives/swift-declaration-derivation/actions/runs/31383906743/jobs?per_page=100 --paginate",
       "gh run view 31383906743 -R swift-primitives/swift-declaration-derivation --job 93440157831 --log",
       "gh run view 31383906743 -R swift-primitives/swift-declaration-derivation --job 93440157839 --log",
-      "gh run view 31383906743 -R swift-primitives/swift-declaration-derivation --job 93440157824 --log"
+      "gh run view 31383906743 -R swift-primitives/swift-declaration-derivation --job 93440157824 --log",
+      "gh api repos/swift-primitives/swift-declaration-derivation/actions/runs/31418061902",
+      "gh api repos/swift-primitives/swift-declaration-derivation/actions/jobs/93552104973/logs",
+      "gh api repos/swift-primitives/swift-declaration-derivation/actions/jobs/93552104907/logs",
+      "gh api repos/swift-primitives/swift-declaration-derivation/actions/jobs/93552104874/logs"
     ],
     "swiftPMMechanism": {
       "documentation": "https://github.com/swiftlang/swift-package-manager/blob/6c8f14a9ab956d48aa595116f3b1dde638c41db0/Sources/PackageManagerDocs/Documentation.docc/SwiftBuild.md",
@@ -81,7 +96,7 @@
     "positive": "macOS downloaded the 602.0.0 MacroSupport prebuilt and emitted zero SwiftSyntax source-compile lines",
     "absence": "Linux and Windows resolved the same 602.0.0 dependency and positively emitted SwiftSyntax/SwiftParser source-build progress",
     "hostedCanary": "the full-tier macOS, Linux, and Windows jobs all built and tested the attached macro successfully",
-    "selfFiring": "the same run contains both instrument outcomes: one prebuilt selection and two source-build selections",
+    "selfFiring": "two exact-head full-tier runs each contain both instrument outcomes and agree: one prebuilt selection and two source-build selections",
     "security": "public workflow, package, dependency, and log coordinates only; no credential-bearing input or output"
   },
   "stoppedAfterFixedVerdict": {

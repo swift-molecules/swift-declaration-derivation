@@ -92,11 +92,69 @@
       "testsPassed": true
     }
   ],
+  "reproduction": {
+    "measuredAt": "2026-08-10T18:14:24Z/2026-08-10T18:25:55Z",
+    "subjectRevision": "0c2ba3db465d3befe17ee813f3e7bb33ace83e03",
+    "run": "https://github.com/swift-primitives/swift-declaration-derivation/actions/runs/31418061902",
+    "event": "workflow_dispatch",
+    "tier": "full",
+    "conclusion": "success",
+    "universalWorkflowResolvedRevision": "4eb5e080688dfca88bd99d09fdba6077c360534e",
+    "platforms": [
+      {
+        "platform": "macOS",
+        "job": "https://github.com/swift-primitives/swift-declaration-derivation/actions/runs/31418061902/job/93552104973",
+        "resolvedSwiftSyntax": "602.0.0",
+        "prebuiltEnabled": true,
+        "prebuiltSelected": true,
+        "prebuiltURL": "https://download.swift.org/prebuilts/swift-syntax/602.0.0/swiftlang-6.4.0.27.1-macosx27.0-MacroSupport.zip",
+        "prebuiltDownloadSeconds": 0.08,
+        "swiftSyntaxSourceCompileLines": 0,
+        "buildSeconds": 43.98,
+        "testsPassed": true
+      },
+      {
+        "platform": "Linux",
+        "job": "https://github.com/swift-primitives/swift-declaration-derivation/actions/runs/31418061902/job/93552104907",
+        "resolvedSwiftSyntax": "602.0.0",
+        "prebuiltEnabled": true,
+        "prebuiltSelected": false,
+        "prebuiltURL": null,
+        "sourceBuildControls": [
+          "SwiftSyntax",
+          "SwiftParser",
+          "SwiftParserDiagnostics",
+          "SwiftSyntaxBuilder",
+          "SwiftSyntaxMacros",
+          "SwiftSyntaxMacroExpansion",
+          "SwiftSyntaxMacrosGenericTestSupport"
+        ],
+        "buildSeconds": 538.89,
+        "testsPassed": true
+      },
+      {
+        "platform": "Windows",
+        "job": "https://github.com/swift-primitives/swift-declaration-derivation/actions/runs/31418061902/job/93552104874",
+        "resolvedSwiftSyntax": "602.0.0",
+        "prebuiltEnabled": true,
+        "prebuiltSelected": false,
+        "prebuiltURL": null,
+        "swiftSyntaxSourceCompileLines": 169,
+        "buildSeconds": 207.32,
+        "testsPassed": true
+      }
+    ],
+    "classification": "UNFAVORABLE",
+    "agreesWithInitialMeasurement": true
+  },
   "coverage": {
     "prebuiltEnabledPlatformsRequired": 3,
     "prebuiltEnabledPlatformsObserved": 1,
     "pairedPlatformComparisonsRequired": 3,
-    "pairedPlatformComparisonsObserved": 0
+    "pairedPlatformComparisonsObserved": 0,
+    "reproductionsRequired": 2,
+    "reproductionsObserved": 2,
+    "reproductionAgreement": true
   },
   "classification": "UNFAVORABLE"
 }
