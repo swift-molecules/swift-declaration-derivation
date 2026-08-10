@@ -8,8 +8,9 @@ extension TX.D7A {
             .appendingPathComponent("tx-d7a-\(UUID().uuidString)")
         do {
             try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+            try FileManager.default.createDirectory(at: argument.evidence, withIntermediateDirectories: true)
         } catch {
-            throw .operation("could not create the measurement root")
+            throw .operation("could not create a measurement root or evidence directory")
         }
         defer {
             try? FileManager.default.removeItem(at: root)
@@ -21,6 +22,7 @@ extension TX.D7A {
             arguments: ["--version"],
             directory: argument.repository,
             log: identityLog,
+            evidence: argument.evidence,
             name: "swift --version"
         )
         let identity = try read(identityLog).trimmingCharacters(in: .whitespacesAndNewlines)

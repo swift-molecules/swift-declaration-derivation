@@ -26,6 +26,7 @@ extension TX.D7A {
             ["package", "resolve", "--scratch-path", scratch.path],
             directory: fixture,
             log: resolveLog,
+            evidence: argument.evidence,
             name: "swift package resolve"
         )
 
@@ -45,6 +46,7 @@ extension TX.D7A {
             buildArguments,
             directory: fixture,
             log: cleanLog,
+            evidence: argument.evidence,
             name: "swift build clean sample"
         )
 
@@ -57,6 +59,7 @@ extension TX.D7A {
             buildArguments,
             directory: fixture,
             log: incrementalLog,
+            evidence: argument.evidence,
             name: "swift build incremental sample"
         )
         let after = canary(seed: UInt64(sample * 10 + order))
@@ -75,6 +78,7 @@ extension TX.D7A {
             pathArguments,
             directory: fixture,
             log: pathLog,
+            evidence: argument.evidence,
             name: "swift build show bin path"
         )
         guard let path = try read(pathLog).split(whereSeparator: \Character.isNewline).last else {
@@ -88,6 +92,7 @@ extension TX.D7A {
             arguments: [],
             directory: fixture,
             log: runLog,
+            evidence: argument.evidence,
             name: "consumer executable"
         )
 

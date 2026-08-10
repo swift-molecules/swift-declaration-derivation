@@ -41,7 +41,15 @@ jobs:
           set -euo pipefail
           test "$(git rev-parse HEAD)" = "$TX_D7A_SUBJECT_SHA"
           swift_path="$(command -v swift)"
-          swift run --package-path Measurements/TX-D7A -c release "TX D7A Measurement" --repository "$GITHUB_WORKSPACE" --swift "$swift_path" --platform Linux --configuration release --samples 2
+          swift run --package-path Measurements/TX-D7A -c release "TX D7A Measurement" --repository "$GITHUB_WORKSPACE" --swift "$swift_path" --platform Linux --configuration release --samples 2 --evidence "$GITHUB_WORKSPACE/Measurements/TX-D7A/evidence"
+      - name: Upload failure evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: tx-d7a-linux-failure-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: Measurements/TX-D7A/evidence
+          if-no-files-found: ignore
+          retention-days: 7
 
   windows:
     name: Windows source-built economics
@@ -69,4 +77,12 @@ jobs:
           $ErrorActionPreference = "Stop"
           if ((git rev-parse HEAD) -ne $env:TX_D7A_SUBJECT_SHA) { throw "subject checkout mismatch" }
           $swift = (Get-Command swift).Source
-          swift run --package-path Measurements/TX-D7A -c release "TX D7A Measurement" --repository "$env:GITHUB_WORKSPACE" --swift "$swift" --platform Windows --configuration debug --samples 2
+          swift run --package-path Measurements/TX-D7A -c release "TX D7A Measurement" --repository "$env:GITHUB_WORKSPACE" --swift "$swift" --platform Windows --configuration debug --samples 2 --evidence "$env:GITHUB_WORKSPACE/Measurements/TX-D7A/evidence"
+      - name: Upload failure evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@65c4c4a1ddee5b72f698fdd19549f0f0fb45cf08
+        with:
+          name: tx-d7a-windows-failure-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: Measurements/TX-D7A/evidence
+          if-no-files-found: ignore
+          retention-days: 7

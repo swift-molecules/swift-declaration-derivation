@@ -6,6 +6,7 @@ extension TX.D7A {
         arguments: [String],
         directory: URL,
         log: URL,
+        evidence: URL,
         name: String
     ) throws(TX.D7A.Error) -> (seconds: Double, status: Int32) {
         let manager = FileManager.default
@@ -44,6 +45,7 @@ extension TX.D7A {
             Double(components.seconds) + Double(components.attoseconds) / 1_000_000_000_000_000_000
 
         guard process.terminationStatus == 0 else {
+            try preserve(log, named: name, evidence: evidence)
             throw .process(name, process.terminationStatus)
         }
         return (seconds, process.terminationStatus)
@@ -54,6 +56,7 @@ extension TX.D7A {
         _ values: [String],
         directory: URL,
         log: URL,
+        evidence: URL,
         name: String
     ) throws(TX.D7A.Error) -> (seconds: Double, status: Int32) {
         try command(
@@ -61,6 +64,7 @@ extension TX.D7A {
             arguments: values,
             directory: directory,
             log: log,
+            evidence: evidence,
             name: name
         )
     }

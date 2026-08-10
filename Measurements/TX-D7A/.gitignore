@@ -1,6 +1,7 @@
 .build/
 .swiftpm/
 Package.resolved
+evidence/
 Fixtures/*/.build/
 Fixtures/*/.swiftpm/
 Fixtures/*/Package.resolved

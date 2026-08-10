@@ -7,6 +7,7 @@ extension TX.D7A {
         let platform: String
         let configuration: String
         let samples: Int
+        let evidence: URL
 
         init(_ values: [String]) throws(TX.D7A.Error) {
             var fields: [String: String] = [:]
@@ -25,11 +26,12 @@ extension TX.D7A {
                 let platform = fields["--platform"],
                 let configuration = fields["--configuration"],
                 let rawSamples = fields["--samples"],
+                let evidence = fields["--evidence"],
                 let samples = Int(rawSamples),
                 samples > 0
             else {
                 throw .argument(
-                    "required: --repository, --swift, --platform, --configuration, --samples"
+                    "required: --repository, --swift, --platform, --configuration, --samples, --evidence"
                 )
             }
 
@@ -45,6 +47,7 @@ extension TX.D7A {
             self.platform = platform
             self.configuration = configuration
             self.samples = samples
+            self.evidence = URL(fileURLWithPath: evidence, isDirectory: true)
         }
     }
 }
