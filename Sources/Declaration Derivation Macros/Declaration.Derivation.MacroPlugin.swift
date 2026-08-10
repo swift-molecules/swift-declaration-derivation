@@ -1,7 +1,7 @@
 // Declaration.Derivation.MacroPlugin.swift
 
-import DeclarationDerivationDiagnostics
-import DeclarationDerivationModel
+import Declaration_Derivation_Diagnostics
+import Declaration_Derivation_Model
 import SwiftCompilerPlugin
 import SwiftSyntaxMacros
 

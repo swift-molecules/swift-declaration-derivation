@@ -1,6 +1,6 @@
 // Declaration.Derivation.Diagnostic.Code.swift
 
-public import DeclarationDerivationModel
+public import Declaration_Derivation_Model
 
 extension Declaration.Derivation.Diagnostic {
     /// The closed set of stable diagnostic codes.
@@ -27,7 +27,8 @@ extension Declaration.Derivation.Diagnostic {
 
 extension Declaration.Derivation.Diagnostic.Code {
 
-        /// The stable textual identifier of the code.
-        public var identifier: String {
-            rawValue
-        }}
+    /// The stable textual identifier of the code.
+    public var identifier: String {
+        rawValue
+    }
+}

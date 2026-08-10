@@ -20,27 +20,27 @@ let package = Package(
         ),
         .library(
             name: "Declaration Derivation Model",
-            targets: ["DeclarationDerivationModel"]
+            targets: ["Declaration Derivation Model"]
         ),
         .library(
             name: "Declaration SwiftSyntax Adapter",
-            targets: ["DeclarationSwiftSyntaxAdapter"]
+            targets: ["Declaration SwiftSyntax Adapter"]
         ),
         .library(
             name: "Declaration Derivation Analysis",
-            targets: ["DeclarationDerivationAnalysis"]
+            targets: ["Declaration Derivation Analysis"]
         ),
         .library(
             name: "Declaration Derivation Emission",
-            targets: ["DeclarationDerivationEmission"]
+            targets: ["Declaration Derivation Emission"]
         ),
         .library(
             name: "Declaration Derivation Diagnostics",
-            targets: ["DeclarationDerivationDiagnostics"]
+            targets: ["Declaration Derivation Diagnostics"]
         ),
         .library(
             name: "Declaration Derivation Macros",
-            targets: ["DeclarationDerivationMacros"]
+            targets: ["Declaration Derivation Macros"]
         ),
     ],
     dependencies: [
@@ -52,54 +52,54 @@ let package = Package(
         // content (the shared declaration IR, analysis and deterministic emission core).
         .target(
             name: "Declaration Derivation",
-            dependencies: ["DeclarationDerivationMacros"]
+            dependencies: ["Declaration Derivation Macros"]
         ),
         // MARK: - Normalized declaration model (Declaration.Node, Declaration.IR, Declaration.GenerationContract)
         .target(
-            name: "DeclarationDerivationModel",
+            name: "Declaration Derivation Model",
             dependencies: []
         ),
         // MARK: - Stable diagnostics (Declaration.Derivation.Diagnostic)
         .target(
-            name: "DeclarationDerivationDiagnostics",
+            name: "Declaration Derivation Diagnostics",
             dependencies: [
-                "DeclarationDerivationModel",
+                "Declaration Derivation Model",
             ]
         ),
         // MARK: - Analysis rules over the normalized IR
         .target(
-            name: "DeclarationDerivationAnalysis",
+            name: "Declaration Derivation Analysis",
             dependencies: [
-                "DeclarationDerivationModel",
-                "DeclarationDerivationDiagnostics",
+                "Declaration Derivation Model",
+                "Declaration Derivation Diagnostics",
             ]
         ),
         // MARK: - Deterministic emission
         .target(
-            name: "DeclarationDerivationEmission",
+            name: "Declaration Derivation Emission",
             dependencies: [
-                "DeclarationDerivationModel",
-                "DeclarationDerivationDiagnostics",
+                "Declaration Derivation Model",
+                "Declaration Derivation Diagnostics",
             ]
         ),
         // MARK: - SwiftSyntax boundary (SwiftSyntax stays here and in the compiler plugin only)
         .target(
-            name: "DeclarationSwiftSyntaxAdapter",
+            name: "Declaration SwiftSyntax Adapter",
             dependencies: [
-                "DeclarationDerivationModel",
-                "DeclarationDerivationDiagnostics",
+                "Declaration Derivation Model",
+                "Declaration Derivation Diagnostics",
                 .product(name: "SwiftSyntax", package: "swift-syntax"),
             ]
         ),
         // MARK: - Attached-macro expansion host (thin adapter over the core; build-time only, excluded from Embedded)
         .macro(
-            name: "DeclarationDerivationMacros",
+            name: "Declaration Derivation Macros",
             dependencies: [
-                "DeclarationDerivationModel",
-                "DeclarationDerivationDiagnostics",
-                "DeclarationDerivationAnalysis",
-                "DeclarationDerivationEmission",
-                "DeclarationSwiftSyntaxAdapter",
+                "Declaration Derivation Model",
+                "Declaration Derivation Diagnostics",
+                "Declaration Derivation Analysis",
+                "Declaration Derivation Emission",
+                "Declaration SwiftSyntax Adapter",
                 .product(name: "SwiftSyntax", package: "swift-syntax"),
                 .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
                 .product(name: "SwiftCompilerPlugin", package: "swift-syntax"),
@@ -113,20 +113,20 @@ let package = Package(
         .testTarget(
             name: "Declaration Derivation Tests",
             dependencies: [
-                "DeclarationDerivationModel",
-                "DeclarationDerivationDiagnostics",
-                "DeclarationDerivationAnalysis",
-                "DeclarationDerivationEmission",
-                "DeclarationSwiftSyntaxAdapter",
+                "Declaration Derivation Model",
+                "Declaration Derivation Diagnostics",
+                "Declaration Derivation Analysis",
+                "Declaration Derivation Emission",
+                "Declaration SwiftSyntax Adapter",
                 .product(name: "SwiftParser", package: "swift-syntax"),
             ]
         ),
         .testTarget(
             name: "Declaration Derivation Macros Tests",
             dependencies: [
-                "DeclarationDerivationMacros",
-                "DeclarationDerivationModel",
-                "DeclarationDerivationDiagnostics",
+                "Declaration Derivation Macros",
+                "Declaration Derivation Model",
+                "Declaration Derivation Diagnostics",
                 .product(name: "SwiftSyntax", package: "swift-syntax"),
                 .product(name: "SwiftSyntaxMacros", package: "swift-syntax"),
                 .product(name: "SwiftSyntaxMacroExpansion", package: "swift-syntax"),
