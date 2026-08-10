@@ -40,6 +40,8 @@ extension TX.D7A {
         }
 
         let before = canary(seed: UInt64(sample * 10 + order))
+        let sourceModuleNames: Set<String> = ["SwiftSyntax", "SwiftParser"]
+        let sourceBeforeClean = try modules(at: scratch, named: sourceModuleNames)
         let cleanLog = sampleRoot.appendingPathComponent("clean.log")
         let clean = try swift(
             argument,
@@ -49,6 +51,7 @@ extension TX.D7A {
             evidence: argument.evidence,
             name: "swift build clean sample"
         )
+        let sourceClean = try modules(at: scratch, named: sourceModuleNames)
 
         let original = try read(source)
         try write(original + "\n// TX-D7A incremental sample \(sample)\n", to: source)
@@ -62,6 +65,7 @@ extension TX.D7A {
             evidence: argument.evidence,
             name: "swift build incremental sample"
         )
+        let sourceIncremental = try modules(at: scratch, named: sourceModuleNames)
         let after = canary(seed: UInt64(sample * 10 + order))
 
         var pathArguments = [
@@ -97,15 +101,8 @@ extension TX.D7A {
         )
 
         let cleanContents = try read(cleanLog)
-        let incrementalContents = try read(incrementalLog)
         let output = try read(runLog).trimmingCharacters(in: .whitespacesAndNewlines)
-        let sourceNames = [
-            "Compiling SwiftSyntax", "Emitting module SwiftSyntax",
-            "Compiling SwiftParser", "Emitting module SwiftParser",
-        ]
         let prebuiltNames = ["download.swift.org/prebuilts", "MacroSupport.zip"]
-        let sourceClean = lines(in: cleanContents, matching: sourceNames)
-        let sourceIncremental = lines(in: incrementalContents, matching: sourceNames)
         let prebuiltClean = lines(in: cleanContents, matching: prebuiltNames)
         let dependencies = try pins(at: fixture)
         let checkouts = try count(at: scratch.appendingPathComponent("checkouts"))
@@ -113,14 +110,21 @@ extension TX.D7A {
 
         let closure =
             arm == .macro
-            ? sourceClean > 0 && dependencies == 1
-            : sourceClean == 0 && dependencies == 0 && checkouts == 0
-        let valid = output == "7" && prebuiltClean == 0 && sourceIncremental == 0 && closure
+            ? sourceBeforeClean.isEmpty
+                && Set(sourceClean.keys) == sourceModuleNames
+                && sourceIncremental == sourceClean
+                && dependencies == 1
+            : sourceBeforeClean.isEmpty
+                && sourceClean.isEmpty
+                && sourceIncremental.isEmpty
+                && dependencies == 0
+                && checkouts == 0
+        let valid = output == "7" && prebuiltClean == 0 && closure
 
         let environment = ProcessInfo.processInfo.environment
         try emit([
             "kind": "sample",
-            "schemaVersion": 1,
+            "schemaVersion": 2,
             "subjectRevision": environment["TX_D7A_SUBJECT_SHA"] ?? "unmeasured",
             "runID": environment["GITHUB_RUN_ID"] ?? "unmeasured",
             "runAttempt": environment["GITHUB_RUN_ATTEMPT"] ?? "unmeasured",
@@ -143,8 +147,9 @@ extension TX.D7A {
             "externalPackages": dependencies,
             "checkouts": checkouts,
             "checkoutBytes": checkoutBytes,
-            "sourceCompileLinesClean": sourceClean,
-            "sourceCompileLinesIncremental": sourceIncremental,
+            "sourceModulesBeforeClean": sourceBeforeClean,
+            "sourceModulesClean": sourceClean,
+            "sourceModulesIncremental": sourceIncremental,
             "prebuiltLinesClean": prebuiltClean,
             "consumerOutput": output,
             "canaryBeforeSeconds": before.seconds,

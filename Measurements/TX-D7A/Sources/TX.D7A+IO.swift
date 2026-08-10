@@ -81,4 +81,49 @@ extension TX.D7A {
             throw .operation("could not enumerate dependency checkouts")
         }
     }
+
+    static func modules(
+        at root: URL,
+        named names: Set<String>
+    ) throws(TX.D7A.Error) -> [String: Double] {
+        let manager = FileManager.default
+        guard manager.fileExists(atPath: root.path) else { return [:] }
+        guard
+            let enumerator = manager.enumerator(
+                at: root,
+                includingPropertiesForKeys: [.isRegularFileKey, .contentModificationDateKey]
+            )
+        else {
+            throw .operation("could not enumerate source-built modules")
+        }
+
+        var modules: [String: Double] = [:]
+        for case let item as URL in enumerator {
+            if item.lastPathComponent == "checkouts" {
+                enumerator.skipDescendants()
+                continue
+            }
+            guard item.pathExtension == "swiftmodule" else { continue }
+            let name = item.deletingPathExtension().lastPathComponent
+            guard names.contains(name) else { continue }
+            do {
+                let values = try item.resourceValues(
+                    forKeys: [.isRegularFileKey, .contentModificationDateKey]
+                )
+
+                guard
+                    values.isRegularFile == true,
+                    let modificationDate = values.contentModificationDate
+                else {
+                    throw TX.D7A.Error.operation("could not read source-built module metadata")
+                }
+                modules[name] = modificationDate.timeIntervalSinceReferenceDate
+            } catch let error as TX.D7A.Error {
+                throw error
+            } catch {
+                throw .operation("could not read source-built module metadata")
+            }
+        }
+        return modules
+    }
 }
