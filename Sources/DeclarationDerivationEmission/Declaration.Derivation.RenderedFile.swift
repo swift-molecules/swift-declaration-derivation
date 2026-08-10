@@ -11,9 +11,12 @@ extension Declaration.Derivation {
     /// contract's provenance header.
     public struct RenderedFile: Hashable, Sendable {
 
+        /// The contract-owned name of the rendered file.
         public let fileName: FileName
+        /// The complete rendered contents.
         public let contents: String
 
+        /// Creates a rendered file from its name and contents.
         public init(fileName: FileName, contents: String) {
             self.fileName = fileName
             self.contents = contents
@@ -22,11 +25,14 @@ extension Declaration.Derivation {
 }
 
 extension Declaration.Derivation.RenderedFile {
-        /// The name of a rendered file.
-        public struct FileName: Hashable, Sendable {
-            public let text: String
+    /// The name of a rendered file.
+    public struct FileName: Hashable, Sendable {
+        /// The raw textual value.
+        public let text: String
 
-            public init(_ text: String) {
-                self.text = text
-            }
-        }}
+        /// Creates a value from its raw text.
+        public init(_ text: String) {
+            self.text = text
+        }
+    }
+}

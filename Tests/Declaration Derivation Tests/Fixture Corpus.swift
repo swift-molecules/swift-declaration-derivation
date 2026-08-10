@@ -74,4 +74,5 @@ extension FixtureCorpus {
             fatalError("fixture does not parse to a declaration")
         }
         return declaration
-    }}
+    }
+}

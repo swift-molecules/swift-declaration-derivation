@@ -27,8 +27,10 @@ extension Declaration {
         public struct Member: Hashable, Sendable {
             /// An explicit argument label a derived interface must preserve.
             public struct Label: Hashable, Sendable {
+                /// The raw textual value.
                 public let text: String
 
+                /// Creates a value from its raw text.
                 public init(_ text: String) {
                     self.text = text
                 }
@@ -36,50 +38,78 @@ extension Declaration {
 
             /// The normalized spelling of a member's type.
             public struct TypeReference: Hashable, Sendable {
+                /// The raw textual value.
                 public let text: String
 
+                /// Creates a value from its raw text.
                 public init(_ text: String) {
                     self.text = text
                 }
             }
 
-            /// The normalized spelling of a member's default value, when the
-            /// source declares one. Derived interfaces preserve it verbatim.
+            /// The normalized spelling of a member's declared default value.
+            ///
+            /// Derived interfaces preserve it verbatim.
             public struct DefaultValue: Hashable, Sendable {
+                /// The raw textual value.
                 public let text: String
 
+                /// Creates a value from its raw text.
                 public init(_ text: String) {
                     self.text = text
                 }
             }
 
+            /// Whether a stored member may be assigned after its declaration.
+            ///
+            /// A `constant` member that also carries a default value is fully
+            /// initialized at its declaration and may never be assigned
+            /// again; a derived memberwise initializer must therefore omit
+            /// it, exactly as Swift's own memberwise initializer does.
+            public enum Mutability: Hashable, Sendable {
+                case constant
+                case variable
+            }
+
+            /// The member's name.
             public let name: Name
             /// `nil` for enumeration cases, which carry no stored type in
             /// schema v1.
             public let typeReference: TypeReference?
             /// `nil` when the label equals the member name.
             public let label: Label?
+            /// The member's default value, when the source declares one.
             public let defaultValue: DefaultValue?
+            /// Whether the member may be assigned after its declaration.
+            public let mutability: Mutability
 
+            /// Creates a normalized member from its facts.
             public init(
                 name: Name,
                 typeReference: TypeReference? = nil,
                 label: Label? = nil,
-                defaultValue: DefaultValue? = nil
+                defaultValue: DefaultValue? = nil,
+                mutability: Mutability = .variable
             ) {
                 self.name = name
                 self.typeReference = typeReference
                 self.label = label
                 self.defaultValue = defaultValue
+                self.mutability = mutability
             }
         }
 
+        /// The declaration's kind.
         public let kind: Kind
+        /// The declaration's name.
         public let name: Name
-        /// Members in declaration order. Order is semantic: derived
-        /// interfaces (for example a memberwise initializer) preserve it.
+        /// Members in declaration order.
+        ///
+        /// Order is semantic: derived interfaces (for example a memberwise
+        /// initializer) preserve it.
         public let members: [Member]
 
+        /// Creates a normalized node from its kind, name and members.
         public init(kind: Kind, name: Name, members: [Member]) {
             self.kind = kind
             self.name = name
@@ -89,22 +119,25 @@ extension Declaration {
 }
 
 extension Declaration.Node {
-        /// The supported declaration kinds of IR schema v1.
-        ///
-        /// Kinds outside this enumeration are rejected at the adapter
-        /// boundary with the stable
-        /// `declaration.derivation.unsupported-declaration-kind` diagnostic.
-        public enum Kind: String, Hashable, Sendable, CaseIterable {
-            case structure
-            case enumeration
-            case actor
+    /// The supported declaration kinds of IR schema v1.
+    ///
+    /// Kinds outside this enumeration are rejected at the adapter
+    /// boundary with the stable
+    /// `declaration.derivation.unsupported-declaration-kind` diagnostic.
+    public enum Kind: String, Hashable, Sendable, CaseIterable {
+        case structure
+        case enumeration
+        case actor
+    }
+
+    /// The name of a declaration or of one of its members.
+    public struct Name: Hashable, Sendable {
+        /// The raw textual value.
+        public let text: String
+
+        /// Creates a value from its raw text.
+        public init(_ text: String) {
+            self.text = text
         }
-
-        /// The name of a declaration or of one of its members.
-        public struct Name: Hashable, Sendable {
-            public let text: String
-
-            public init(_ text: String) {
-                self.text = text
-            }
-        }}
+    }
+}

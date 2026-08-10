@@ -18,9 +18,8 @@ private let expansionHostMacros: [String: MacroSpec] = [
 
 // MARK: - Swift Testing adapter
 
-/// Bridges `SwiftSyntaxMacrosGenericTestSupport.assertMacroExpansion`'s
-/// framework-agnostic `failureHandler` callback to Swift Testing's
-/// `Issue.record(...)`.
+/// Bridges the generic macro-test support's framework-agnostic failure
+/// handler to Swift Testing issue recording.
 private func expectMacroExpansion(
     _ originalSource: String,
     expandedSource: String,
@@ -69,11 +68,9 @@ private let structureFixtureExpansion = """
         let y: Int = 0
 
         public init(
-            x: Int,
-            y: Int = 0
+            x: Int
         ) {
             self.x = x
-            self.y = y
         }
 
         public static var declarationDerivationProvenance: String {
@@ -137,34 +134,34 @@ private let malformedFixture = """
 
 extension Declaration.Derivation.ExpansionHost {
     @Suite struct Test {
-    /// Self-firing control: the fixture corpus expands twice with identical
-    /// expansions; the expected sources are the API snapshot.
-    @Test func `fixture corpus expands identically twice`() {
-        for _ in 1...2 {
-            expectMacroExpansion(structureFixture, expandedSource: structureFixtureExpansion)
-            expectMacroExpansion(zeroMemberFixture, expandedSource: zeroMemberFixtureExpansion)
-            expectMacroExpansion(enumerationFixture, expandedSource: enumerationFixtureExpansion)
+        /// Self-firing control: the fixture corpus expands twice with identical
+        /// expansions; the expected sources are the API snapshot.
+        @Test func `fixture corpus expands identically twice`() {
+            for _ in 1...2 {
+                expectMacroExpansion(structureFixture, expandedSource: structureFixtureExpansion)
+                expectMacroExpansion(zeroMemberFixture, expandedSource: zeroMemberFixtureExpansion)
+                expectMacroExpansion(enumerationFixture, expandedSource: enumerationFixtureExpansion)
+            }
+        }
+
+        /// Negative control: the malformed fixture expands to nothing and emits
+        /// the stable diagnostic.
+        @Test func `malformed fixture yields the stable diagnostic`() {
+            expectMacroExpansion(
+                malformedFixture,
+                expandedSource: """
+                    struct Bad {
+                        let x = 1
+                    }
+                    """,
+                diagnostics: [
+                    DiagnosticSpec(
+                        message: "declaration.derivation.malformed-declaration [Bad]: stored property 'x' requires an explicit type annotation",
+                        line: 1,
+                        column: 1
+                    )
+                ]
+            )
         }
     }
-
-    /// Negative control: the malformed fixture expands to nothing and emits
-    /// the stable diagnostic.
-    @Test func `malformed fixture yields the stable diagnostic`() {
-        expectMacroExpansion(
-            malformedFixture,
-            expandedSource: """
-                struct Bad {
-                    let x = 1
-                }
-                """,
-            diagnostics: [
-                DiagnosticSpec(
-                    message: "declaration.derivation.malformed-declaration [Bad]: stored property 'x' requires an explicit type annotation",
-                    line: 1,
-                    column: 1
-                )
-            ]
-        )
-    }
-}
 }

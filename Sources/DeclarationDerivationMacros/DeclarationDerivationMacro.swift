@@ -1,9 +1,9 @@
 // DeclarationDerivationMacro.swift
 
-public import SwiftSyntax
-public import SwiftSyntaxMacros
 import DeclarationDerivationDiagnostics
 public import DeclarationDerivationModel
+public import SwiftSyntax
+public import SwiftSyntaxMacros
 
 /// The resolvable implementation coordinate of the `@DeclarationDerivation`
 /// attached macro.
@@ -20,6 +20,7 @@ public struct DeclarationDerivationMacro: MemberMacro {
 }
 
 extension DeclarationDerivationMacro {
+    /// Forwards the member expansion to the shared expansion host.
     public static func expansion(
         of node: AttributeSyntax,
         providingMembersOf declaration: some DeclGroupSyntax,

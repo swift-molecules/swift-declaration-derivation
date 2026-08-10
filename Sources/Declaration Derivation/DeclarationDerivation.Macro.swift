@@ -11,7 +11,9 @@
 /// plugin; no generated source is placed under version control.
 @attached(
     member,
-    names: named(init), named(derivedCaseName), named(declarationDerivationProvenance)
+    names: named(init),
+    named(derivedCaseName),
+    named(declarationDerivationProvenance)
 )
 public macro DeclarationDerivation() =
     #externalMacro(module: "DeclarationDerivationMacros", type: "DeclarationDerivationMacro")

@@ -27,7 +27,8 @@ extension Declaration.Derivation.Diagnostic {
 
 extension Declaration.Derivation.Diagnostic.Code {
 
-        /// The stable textual identifier of the code.
-        public var identifier: String {
-            rawValue
-        }}
+    /// The stable textual identifier of the code.
+    public var identifier: String {
+        rawValue
+    }
+}

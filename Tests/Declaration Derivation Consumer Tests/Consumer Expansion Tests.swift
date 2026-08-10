@@ -17,7 +17,8 @@ import Testing
 @DeclarationDerivation
 private struct Point {
     let x: Int
-    var y: Int = 0
+    let y: Int = 0
+    var label: String = "origin"
 }
 
 @DeclarationDerivation
@@ -42,6 +43,16 @@ extension DeclarationDerivation {
         @Test func `structure derives a default preserving memberwise initializer`() {
             let point = Point(x: 7)
             #expect(point.x == 7)
+            #expect(point.label == "origin")
+            let labelled = Point(x: 1, label: "corner")
+            #expect(labelled.label == "corner")
+        }
+
+        /// The defect shape of the reopened TX-D1: an initialized `let`
+        /// member must be omitted from the derived initializer or the
+        /// expansion does not compile at a consumer site at all.
+        @Test func `initialized constant members are preserved, not reassigned`() {
+            let point = Point(x: 7)
             #expect(point.y == 0)
         }
 
