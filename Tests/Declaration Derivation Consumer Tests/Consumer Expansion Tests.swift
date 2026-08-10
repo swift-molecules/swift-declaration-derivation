@@ -10,7 +10,7 @@ import Testing
 // behind the "Declaration Derivation" library product, so it compiles
 // against exactly the surface an external consumer receives. Expansion
 // therefore proves the product carries its own compiler plugin. An
-// expansion test that also depends on Declaration_Derivation_Macros — or one
+// expansion test that also depends on DeclarationDerivationMacros — or one
 // that supplies the macro mapping itself through `macroSpecs:` — cannot
 // detect a missing or unresolvable macro declaration.
 

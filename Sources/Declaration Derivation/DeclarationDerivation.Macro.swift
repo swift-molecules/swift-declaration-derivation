@@ -7,7 +7,7 @@
 /// label- and default-preserving memberwise initializer for structures and
 /// actors, a stable case-name accessor for enumerations — plus the
 /// provenance member the contract mandates. Expansion occurs at build time
-/// in the consumer through the `Declaration_Derivation_Macros` compiler
+/// in the consumer through the `DeclarationDerivationMacros` compiler
 /// plugin; no generated source is placed under version control.
 @attached(
     member,
@@ -16,4 +16,4 @@
     named(declarationDerivationProvenance)
 )
 public macro DeclarationDerivation() =
-    #externalMacro(module: "Declaration_Derivation_Macros", type: "DeclarationDerivationMacro")
+    #externalMacro(module: "DeclarationDerivationMacros", type: "DeclarationDerivationMacro")
