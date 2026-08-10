@@ -5,7 +5,10 @@ import PackageDescription
 let package = Package(
     name: "tx-d7a-macro-consumer",
     dependencies: [
-        .package(path: "../../../..")
+        .package(
+            name: "swift-declaration-derivation",
+            path: "../../../.."
+        )
     ],
     targets: [
         .executableTarget(
