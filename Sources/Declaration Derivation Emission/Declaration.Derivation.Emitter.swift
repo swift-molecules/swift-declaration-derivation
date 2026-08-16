@@ -76,8 +76,11 @@ extension Declaration.Derivation.Emitter {
         }
         lines.append("}")
         lines.append("")
+        let fileName = Declaration.Derivation.RenderedFile.FileName(
+            contract.generatedFileName(for: node.name)
+        )
         return Declaration.Derivation.RenderedFile(
-            fileName: Declaration.Derivation.RenderedFile.FileName(contract.generatedFileName(for: node.name)),
+            fileName: fileName,
             contents: lines.joined(separator: "\n")
         )
     }

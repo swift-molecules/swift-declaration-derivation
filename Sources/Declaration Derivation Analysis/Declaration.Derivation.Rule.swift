@@ -59,7 +59,10 @@ extension Declaration.Derivation.Rule {
                     return Declaration.Derivation.Diagnostic(
                         code: .ambiguousOwnership,
                         subject: node.name,
-                        detail: "member '\(member.name.text)' is declared more than once; ownership of the derived interface is ambiguous"
+                        detail: """
+                            member '\(member.name.text)' is declared more than once; \
+                            ownership of the derived interface is ambiguous
+                            """
                     )
                 }
                 seen.insert(member.name.text)
