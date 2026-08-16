@@ -96,7 +96,10 @@ extension Declaration.SwiftSyntaxAdapter {
                     throw Declaration.Derivation.Diagnostic(
                         code: .malformedDeclaration,
                         subject: Declaration.Node.Name(declarationName),
-                        detail: "stored property '\(identifier.identifier.trimmedDescription)' requires an explicit type annotation"
+                        detail: """
+                            stored property '\(identifier.identifier.trimmedDescription)' \
+                            requires an explicit type annotation
+                            """
                     )
                 }
                 members.append(
