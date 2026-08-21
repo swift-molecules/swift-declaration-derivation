@@ -1,5 +1,3 @@
-// Emitter Tests.swift
-
 import Declaration_Derivation_Analysis
 import Declaration_Derivation_Diagnostics
 import Declaration_Derivation_Emission
@@ -35,9 +33,6 @@ extension Declaration.Derivation.Emitter {
             #expect(xPosition.lowerBound < labelPosition.lowerBound)
         }
 
-        /// A constant member with an initial value is fully initialized at its
-        /// declaration; the derived initializer must omit it, exactly as Swift's
-        /// own memberwise initializer does, or the expansion does not compile.
         @Test func `initialized constant members are omitted from the initializer`() throws {
             let intermediateRepresentation = try adapter.intermediateRepresentation(
                 from: FixtureCorpus.declaration(FixtureCorpus.defaultPreservingStructure)

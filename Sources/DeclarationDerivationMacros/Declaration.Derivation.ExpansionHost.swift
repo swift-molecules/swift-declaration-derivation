@@ -1,5 +1,3 @@
-// Declaration.Derivation.ExpansionHost.swift
-
 import Declaration_Derivation_Analysis
 import Declaration_Derivation_Diagnostics
 import Declaration_Derivation_Emission
@@ -9,22 +7,13 @@ public import SwiftSyntax
 public import SwiftSyntaxMacros
 
 extension Declaration.Derivation {
-    /// The shared attached-macro expansion host of the derivation family.
-    ///
-    /// The host is a thin adapter over the core: it normalizes the attached
-    /// declaration through `Declaration.SwiftSyntaxAdapter`, validates the
-    /// IR through `Declaration.Derivation.Analyzer` and renders members
-    /// through `Declaration.Derivation.Emitter`. It receives the attached
-    /// declaration only and performs no input or output of any other kind.
-    /// Every expansion carries the generation contract's provenance
-    /// (contract revision, IR schema version, package version pin) as a
-    /// generated member.
+
     public struct ExpansionHost: MemberMacro {
     }
 }
 
 extension Declaration.Derivation.ExpansionHost {
-    /// The generation contract this expansion host emits under.
+
     public static let contract = Declaration.GenerationContract(
         revision: Declaration.GenerationContract.Revision("1"),
         schemaVersion: .version1,
@@ -33,7 +22,6 @@ extension Declaration.Derivation.ExpansionHost {
         )
     )
 
-    /// Expands the attached declaration into its derived members.
     public static func expansion(
         of node: AttributeSyntax,
         providingMembersOf declaration: some DeclGroupSyntax,

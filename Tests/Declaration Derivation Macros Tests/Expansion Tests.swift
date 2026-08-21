@@ -1,5 +1,3 @@
-// Expansion Tests.swift
-
 import Declaration_Derivation_Diagnostics
 import Declaration_Derivation_Model
 import SwiftSyntax
@@ -10,16 +8,10 @@ import Testing
 
 @testable import DeclarationDerivationMacros
 
-// MARK: - Macro registry
-
 private let expansionHostMacros: [String: MacroSpec] = [
     "DeclarationDerivation": MacroSpec(type: Declaration.Derivation.ExpansionHost.self)
 ]
 
-// MARK: - Swift Testing adapter
-
-/// Bridges the generic macro-test support's framework-agnostic failure
-/// handler to Swift Testing issue recording.
 private func expectMacroExpansion(
     _ originalSource: String,
     expandedSource: String,
@@ -51,8 +43,6 @@ private func expectMacroExpansion(
         column: column
     )
 }
-
-// MARK: - Expansion fixtures (the expected sources are the API snapshot of the expanded interface)
 
 private let structureFixture = """
     @DeclarationDerivation
@@ -134,8 +124,7 @@ private let malformedFixture = """
 
 extension Declaration.Derivation.ExpansionHost {
     @Suite struct Test {
-        /// Self-firing control: the fixture corpus expands twice with identical
-        /// expansions; the expected sources are the API snapshot.
+
         @Test func `fixture corpus expands identically twice`() {
             for _ in 1...2 {
                 expectMacroExpansion(
@@ -153,8 +142,6 @@ extension Declaration.Derivation.ExpansionHost {
             }
         }
 
-        /// Negative control: the malformed fixture expands to nothing and emits
-        /// the stable diagnostic.
         @Test func `malformed fixture yields the stable diagnostic`() {
             expectMacroExpansion(
                 malformedFixture,

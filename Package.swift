@@ -13,7 +13,7 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-        // MARK: - Namespace (per [MOD-017])
+
         .library(
             name: "Declaration Derivation",
             targets: ["Declaration Derivation"]
@@ -47,26 +47,24 @@ let package = Package(
         .package(url: "https://github.com/swiftlang/swift-syntax.git", "602.0.0"..<"603.0.0")
     ],
     targets: [
-        // MARK: - Namespace (per [MOD-017])
-        // TX-D0 bootstrap scaffold; the D1 transaction owns the semantic
-        // content (the shared declaration IR, analysis and deterministic emission core).
+
         .target(
             name: "Declaration Derivation",
             dependencies: ["DeclarationDerivationMacros"]
         ),
-        // MARK: - Normalized declaration model (Declaration.Node, Declaration.IR, Declaration.GenerationContract)
+
         .target(
             name: "Declaration Derivation Model",
             dependencies: []
         ),
-        // MARK: - Stable diagnostics (Declaration.Derivation.Diagnostic)
+
         .target(
             name: "Declaration Derivation Diagnostics",
             dependencies: [
                 "Declaration Derivation Model"
             ]
         ),
-        // MARK: - Analysis rules over the normalized IR
+
         .target(
             name: "Declaration Derivation Analysis",
             dependencies: [
@@ -74,7 +72,7 @@ let package = Package(
                 "Declaration Derivation Diagnostics",
             ]
         ),
-        // MARK: - Deterministic emission
+
         .target(
             name: "Declaration Derivation Emission",
             dependencies: [
@@ -82,7 +80,7 @@ let package = Package(
                 "Declaration Derivation Diagnostics",
             ]
         ),
-        // MARK: - SwiftSyntax boundary (SwiftSyntax stays here and in the compiler plugin only)
+
         .target(
             name: "Declaration SwiftSyntax Adapter",
             dependencies: [
@@ -91,7 +89,7 @@ let package = Package(
                 .product(name: "SwiftSyntax", package: "swift-syntax"),
             ]
         ),
-        // MARK: - Attached-macro expansion host (thin adapter over the core; build-time only, excluded from Embedded)
+
         .macro(
             name: "DeclarationDerivationMacros",
             dependencies: [

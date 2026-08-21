@@ -1,23 +1,12 @@
-// Declaration.Derivation.Emitter.swift
-
 public import Declaration_Derivation_Diagnostics
 public import Declaration_Derivation_Model
 
 extension Declaration.Derivation {
-    /// The deterministic emitter of IR schema v1.
-    ///
-    /// Emission is a pure function of the analyzed IR and the generation
-    /// contract: the same input renders byte-identically on every run. The
-    /// emitter derives the v1 interface — a label- and default-preserving
-    /// memberwise initializer for structures and actors, a stable case-name
-    /// accessor for enumerations — plus the provenance member the contract
-    /// mandates. It only ever renders files whose names the contract owns;
-    /// handwritten declarations outside the contract are never touched.
+
     public struct Emitter: Sendable {
-        /// The generation contract emission renders under.
+
         public let contract: Declaration.GenerationContract
 
-        /// Creates an emitter for the given generation contract.
         public init(contract: Declaration.GenerationContract) {
             self.contract = contract
         }
@@ -26,8 +15,6 @@ extension Declaration.Derivation {
 
 extension Declaration.Derivation.Emitter {
 
-    /// The derived member declarations for an analyzed IR, in stable
-    /// order, each rendered as canonical Swift source.
     public func memberDeclarations(
         for intermediateRepresentation: Declaration.IR
     ) throws(Declaration.Derivation.Diagnostic) -> [String] {
@@ -51,9 +38,6 @@ extension Declaration.Derivation.Emitter {
         return declarations
     }
 
-    /// The complete rendered file for an analyzed IR: provenance header,
-    /// then an extension of the declared type containing the derived
-    /// members.
     public func emit(
         _ intermediateRepresentation: Declaration.IR
     ) throws(Declaration.Derivation.Diagnostic) -> Declaration.Derivation.RenderedFile {
@@ -85,8 +69,6 @@ extension Declaration.Derivation.Emitter {
         )
     }
 
-    // MARK: - Derived members
-
     private func memberwiseInitializer(
         for node: Declaration.Node
     ) throws(Declaration.Derivation.Diagnostic) -> String {
@@ -94,10 +76,7 @@ extension Declaration.Derivation.Emitter {
         var assignments: [String] = []
         for member in node.members {
             if member.mutability == .constant, member.defaultValue != nil {
-                // A constant member with an initial value is fully
-                // initialized at its declaration and may never be
-                // assigned again; Swift's own memberwise initializer
-                // omits it, and so does the derived one.
+
                 continue
             }
             guard let typeReference = member.typeReference else {

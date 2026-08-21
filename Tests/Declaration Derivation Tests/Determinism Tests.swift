@@ -1,5 +1,3 @@
-// Determinism Tests.swift
-
 import Declaration_Derivation_Analysis
 import Declaration_Derivation_Diagnostics
 import Declaration_Derivation_Emission
@@ -9,8 +7,7 @@ import Testing
 
 extension Declaration.IR {
     @Suite struct Test {
-        /// Positive control: deriving the fixture corpus twice yields
-        /// byte-identical IR, rendered files and provenance.
+
         @Test(
             arguments: [
                 FixtureCorpus.zeroMemberStructure,
@@ -43,8 +40,6 @@ extension Declaration.IR {
             #expect(first.1.contents.utf8.elementsEqual(second.1.contents.utf8))
         }
 
-        /// Negative control: a malformed declaration fails with the same stable
-        /// diagnostic on every run.
         @Test func `malformed declaration yields the stable diagnostic twice`() {
             let adapter = Declaration.SwiftSyntaxAdapter()
 

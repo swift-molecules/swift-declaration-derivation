@@ -1,34 +1,22 @@
-// Declaration.Derivation.Rule.swift
-
 public import Declaration_Derivation_Diagnostics
 public import Declaration_Derivation_Model
 
 extension Declaration.Derivation {
-    /// A single analysis rule over the normalized IR.
-    ///
-    /// Rules are pure and deterministic: the same IR yields the same
-    /// verdict — and, on violation, the same diagnostic — on every run.
+
     public enum Rule: Hashable, Sendable, CaseIterable {
-        /// The declaration itself must carry a non-empty name.
+
         case declarationNameIsNotEmpty
 
-        /// Every member must carry a non-empty name.
         case memberNamesAreNotEmpty
 
-        /// Member names must be unique; duplicates make ownership of the
-        /// derived interface ambiguous.
         case memberNamesAreUnique
 
-        /// Structure and actor members must carry a type reference; a
-        /// normalized stored property without one is malformed.
         case storedMembersCarryTypeReferences
     }
 }
 
 extension Declaration.Derivation.Rule {
 
-    /// The first violation of this rule in the IR, in declaration
-    /// order, or `nil` when the rule holds.
     public func violation(
         in intermediateRepresentation: Declaration.IR
     ) -> Declaration.Derivation.Diagnostic? {

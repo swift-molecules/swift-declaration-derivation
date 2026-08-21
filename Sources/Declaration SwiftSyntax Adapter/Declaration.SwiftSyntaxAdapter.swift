@@ -1,38 +1,23 @@
-// Declaration.SwiftSyntaxAdapter.swift
-
 public import Declaration_Derivation_Diagnostics
 public import Declaration_Derivation_Model
 public import SwiftSyntax
 
 extension Declaration {
-    /// The single SwiftSyntax boundary of the derivation family.
-    ///
-    /// The adapter normalizes a syntax declaration into `Declaration.Node`
-    /// and `Declaration.IR`; everything downstream (analysis, emission,
-    /// downstream derivation packages) is syntax-free. SwiftSyntax appears
-    /// only here and in the compiler-plugin target.
+
     public struct SwiftSyntaxAdapter: Sendable {
-        /// Creates an adapter.
+
         public init() {}
     }
 }
 
 extension Declaration.SwiftSyntaxAdapter {
 
-    /// The normalized IR of a syntax declaration.
     public func intermediateRepresentation(
         from declaration: some SyntaxProtocol
     ) throws(Declaration.Derivation.Diagnostic) -> Declaration.IR {
         Declaration.IR(node: try node(from: declaration))
     }
 
-    /// The normalized node of a syntax declaration.
-    ///
-    /// Structures and actors normalize their stored properties;
-    /// enumerations normalize their cases. Any other declaration kind is
-    /// rejected with the stable unsupported-kind diagnostic, and a
-    /// stored property without an explicit type annotation is rejected
-    /// as malformed.
     public func node(
         from declaration: some SyntaxProtocol
     ) throws(Declaration.Derivation.Diagnostic) -> Declaration.Node {
@@ -69,8 +54,6 @@ extension Declaration.SwiftSyntaxAdapter {
             detail: "only structures, enumerations and actors are supported by IR schema v1"
         )
     }
-
-    // MARK: - Normalization
 
     private func storedMembers(
         of memberBlock: MemberBlockSyntax,

@@ -1,5 +1,3 @@
-// Analyzer Tests.swift
-
 import Declaration_Derivation_Analysis
 import Declaration_Derivation_Diagnostics
 import Declaration_Derivation_Model
