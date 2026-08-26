@@ -1,7 +1,7 @@
 # Declaration Derivation
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
-[![CI](https://github.com/swift-primitives/swift-declaration-derivation/actions/workflows/ci.yml/badge.svg)](https://github.com/swift-primitives/swift-declaration-derivation/actions/workflows/ci.yml)
+[![CI](https://github.com/swift-molecules/swift-declaration-derivation/actions/workflows/ci.yml/badge.svg)](https://github.com/swift-molecules/swift-declaration-derivation/actions/workflows/ci.yml)
 
 `@DeclarationDerivation` derives a declaration's memberwise interface from a normalized declaration IR, under an explicit generation contract that records what the generator owns and which revision produced it.
 
@@ -43,7 +43,7 @@ enumerations — plus the mandated provenance member.
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-primitives/swift-declaration-derivation.git", branch: "main")
+    .package(url: "https://github.com/swift-molecules/swift-declaration-derivation.git", branch: "main")
 ]
 ```
 

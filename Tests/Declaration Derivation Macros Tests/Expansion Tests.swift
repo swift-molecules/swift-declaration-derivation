@@ -64,7 +64,7 @@ private let structureFixtureExpansion = """
         }
 
         public static var declarationDerivationProvenance: String {
-            "contract-revision=1;ir-schema=v1;package-version-pin=swift-primitives/swift-declaration-derivation@main"
+            "contract-revision=1;ir-schema=v1;package-version-pin=swift-molecules/swift-declaration-derivation@main"
         }
     }
     """
@@ -82,7 +82,7 @@ private let zeroMemberFixtureExpansion = """
         }
 
         public static var declarationDerivationProvenance: String {
-            "contract-revision=1;ir-schema=v1;package-version-pin=swift-primitives/swift-declaration-derivation@main"
+            "contract-revision=1;ir-schema=v1;package-version-pin=swift-molecules/swift-declaration-derivation@main"
         }
     }
     """
@@ -110,7 +110,7 @@ private let enumerationFixtureExpansion = """
         }
 
         public static var declarationDerivationProvenance: String {
-            "contract-revision=1;ir-schema=v1;package-version-pin=swift-primitives/swift-declaration-derivation@main"
+            "contract-revision=1;ir-schema=v1;package-version-pin=swift-molecules/swift-declaration-derivation@main"
         }
     }
     """

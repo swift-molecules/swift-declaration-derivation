@@ -20,7 +20,7 @@ private actor Counter {
 }
 
 private let expectedProvenance =
-    "contract-revision=1;ir-schema=v1;package-version-pin=swift-primitives/swift-declaration-derivation@main"
+    "contract-revision=1;ir-schema=v1;package-version-pin=swift-molecules/swift-declaration-derivation@main"
 
 extension DeclarationDerivation {
     @Suite struct Test {

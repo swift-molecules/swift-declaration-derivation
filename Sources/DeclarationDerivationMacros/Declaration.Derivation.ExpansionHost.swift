@@ -18,7 +18,7 @@ extension Declaration.Derivation.ExpansionHost {
         revision: Declaration.GenerationContract.Revision("1"),
         schemaVersion: .version1,
         packageVersionPin: Declaration.GenerationContract.PackageVersionPin(
-            "swift-primitives/swift-declaration-derivation@main"
+            "swift-molecules/swift-declaration-derivation@main"
         )
     )
 
